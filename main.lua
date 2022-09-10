@@ -6,7 +6,7 @@ function love.load()
     timer = 5
     b1 = Bunny()
 end
-
+-- test test
 function love.update(dt)
     if timer >= 5 then
         c1 = Carrot()
