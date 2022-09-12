@@ -17,3 +17,5 @@ end
 function Carrot:draw()
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 end
+
+-- carrots sprout from the ground
