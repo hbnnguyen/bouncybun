@@ -64,6 +64,7 @@ function Bunny:checkCollision(carrots)
     return false
 end 
 
+-- score count will only start if bunny passes the first carrot on the screen
 function Bunny:checkScore(carrots, dt)
     local self_left = self.x
     local carrots_right = carrots[1].x + carrots[1].width
