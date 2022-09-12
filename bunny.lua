@@ -3,13 +3,14 @@ Bunny = Object:extend()
 function Bunny:new()
     self.width = 50
     self.height = 50
-    self.ground = love.graphics.getHeight()/4*3 - self.height
+    self.ground = love.graphics.getHeight()/5*4 - self.height
     self.x = love.graphics.getWidth()/3 - self.width/2
     self.y = self.ground
     self.accel = 15
     self.velos = 0
     self.timer = 0.5
     self.score = 0
+    scoretime = 5
 end
 
 function Bunny:update(dt)
@@ -24,6 +25,7 @@ function Bunny:update(dt)
         self.y = self.ground
         self.velos = 0
     end
+    self:checkScore(carrots, dt)
 end
 
 function Bunny:draw()
@@ -62,12 +64,14 @@ function Bunny:checkCollision(carrots)
     return false
 end 
 
-function Bunny:checkScore(carrots)
+function Bunny:checkScore(carrots, dt)
     local self_left = self.x
-    for i=1, #carrots do
-        local carrots_right = carrots[i].x + carrots[i].width
-        if self_left >= carrots_right then
+    local carrots_right = carrots[1].x + carrots[1].width
+    if self_left >= carrots_right then
+        if scoretime >= 5 then
             self.score = self.score + 1
+            scoretime = 0
         end
     end
+    scoretime = scoretime + dt
 end
