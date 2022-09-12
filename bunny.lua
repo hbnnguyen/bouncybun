@@ -19,7 +19,7 @@ function Bunny:update(carrots, dt)
     self.y = self.y + self.velos
     self.timer = self.timer + dt
 
-    if love.keyboard.isDown("up") and self.timer >= 0.1 then
+    if love.keyboard.isDown("space") and self.timer >= 0.1 then
         self.velos = -5
         self.timer = 0
     elseif self.y >= self.ground then
@@ -83,3 +83,4 @@ end
 --make bun stop moving in bunny die
 --limit bun jumps
 -- game over screen
+-- put bunny in front of carrot 
