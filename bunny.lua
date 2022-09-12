@@ -1,6 +1,7 @@
 Bunny = Object:extend()
 
 function Bunny:new()
+    self.bun = love.graphics.newImage("bun.png")
     self.width = 50
     self.height = 50
     self.ground = love.graphics.getHeight()/5*4 - self.height
@@ -29,15 +30,8 @@ function Bunny:update(dt)
 end
 
 function Bunny:draw()
-    local mode
-    if self:checkCollision(carrots) then
-        mode = "fill"
-    else 
-        mode = "line"
-    end
-
     font = love.graphics.getFont()
-    love.graphics.rectangle(mode, self.x, self.y, self.width, self.height)
+    love.graphics.draw(self.bun, self.x, self.y)
     local score_y = love.graphics.getHeight() / 5
     love.graphics.printf(self.score, font, 0, score_y, love.graphics.getWidth(), "center")
 end
@@ -75,4 +69,7 @@ function Bunny:checkScore(carrots, dt)
         end
     end
     scoretime = scoretime + dt
+end
+
+function Bunny:die()
 end
