@@ -9,7 +9,7 @@ function Bunny:new()
     self.y = self.ground
     self.accel = 15
     self.velos = 0
-    self.timer = 0.5
+    self.timer = 0.9
     self.score = 0
     scoretime = 5
 end
@@ -79,3 +79,7 @@ function Bunny:die(carrots)
         carrots[i].move = false
     end
 end
+
+--make bun stop moving in bunny die
+--limit bun jumps
+-- game over screen
