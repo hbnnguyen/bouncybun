@@ -14,7 +14,7 @@ function love.update(dt)
         timer = 0
     end
     timer = timer + dt
-    b1:update(dt)
+    b1:update(carrots, dt)
     crtUpdate(carrots, dt)
 end
 

@@ -14,7 +14,7 @@ function Bunny:new()
     scoretime = 5
 end
 
-function Bunny:update(dt)
+function Bunny:update(carrots, dt)
     self.velos = self.velos + self.accel * dt
     self.y = self.y + self.velos
     self.timer = self.timer + dt
@@ -27,6 +27,9 @@ function Bunny:update(dt)
         self.velos = 0
     end
     self:checkScore(carrots, dt)
+    if self:checkCollision(carrots) then
+        self:die(carrots)
+    end
 end
 
 function Bunny:draw()
@@ -71,5 +74,8 @@ function Bunny:checkScore(carrots, dt)
     scoretime = scoretime + dt
 end
 
-function Bunny:die()
+function Bunny:die(carrots)
+    for i=1, #carrots do
+        carrots[i].move = false
+    end
 end

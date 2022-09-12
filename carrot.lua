@@ -5,10 +5,13 @@ function Carrot:new()
     self.height = 150
     self.x = love.graphics.getWidth()
     self.y = love.graphics.getHeight()/5*4 - self.height
+    self.move = true
 end
 
 function Carrot:update(dt)
-    self.x = self.x - 100 * dt
+    if self.move then
+        self.x = self.x - 100 * dt
+    end
 end
 
 function Carrot:draw()
