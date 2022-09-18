@@ -11,24 +11,30 @@ function Bunny:new()
     self.velos = 0
     self.timer = 0.9
     self.score = 0
-    scoretime = 5
+    self.scoretime = 5
+    self.gameover = false
 end
 
 function Bunny:update(carrots, dt)
+    --bun jump
     self.velos = self.velos + self.accel * dt
     self.y = self.y + self.velos
     self.timer = self.timer + dt
 
-    if love.keyboard.isDown("space") and self.timer >= 0.1 then
-        self.velos = -5
-        self.timer = 0
-    elseif self.y >= self.ground then
+    if self.y >= self.ground then
         self.y = self.ground
         self.velos = 0
     end
+    if love.keyboard.isDown("space") and self.timer >= 0.1 and self.gameover == false then
+        self.velos = -5
+        self.timer = 0
+    end
+    
+    --handle game over
     self:checkScore(carrots, dt)
-    if self:checkCollision(carrots) then
+    if self:checkCollision(carrots) and self.gameover == false then
         self:die(carrots)
+        self.gameover = true
     end
 end
 
@@ -66,12 +72,12 @@ function Bunny:checkScore(carrots, dt)
     local self_left = self.x
     local carrots_right = carrots[1].x + carrots[1].width
     if self_left >= carrots_right then
-        if scoretime >= 5 then
+        if self.scoretime >= 5 then
             self.score = self.score + 1
-            scoretime = 0
+            self.scoretime = 0
         end
     end
-    scoretime = scoretime + dt
+    self.scoretime = self.scoretime + dt
 end
 
 function Bunny:die(carrots)
@@ -80,7 +86,7 @@ function Bunny:die(carrots)
     end
 end
 
---make bun stop moving in bunny die
 --limit bun jumps
 -- game over screen
 -- put bunny in front of carrot 
+-- press s to restart
