@@ -19,8 +19,8 @@ function love.update(dt)
 end
 
 function love.draw()
-    b1:draw(b1)
     crtDraw(carrots)
+    b1:draw(b1)
 end
 
 function crtUpdate(carrots, dt)

@@ -78,9 +78,10 @@ function Bunny:die(carrots)
     for i=1, #carrots do
         carrots[i].move = false
     end
+    
 end
 
 --make bun stop moving in bunny die
 --limit bun jumps
 -- game over screen
--- put bunny in front of carrot 
+-- press "space" to start over
