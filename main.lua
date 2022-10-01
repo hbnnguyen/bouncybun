@@ -8,7 +8,7 @@ function love.load()
 end
 -- test test
 function love.update(dt)
-    if timer >= 5 then
+    if timer >= 5 and b1.gameover == false then
         c1 = Carrot()
         table.insert(carrots, c1)
         timer = 0
