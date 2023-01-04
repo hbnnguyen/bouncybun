@@ -13,6 +13,7 @@ function Bunny:new()
     self.score = 0
     self.scoretime = 5
     self.gameover = false
+    self.jumpcount = 0
 end
 
 function Bunny:update(carrots, dt)
@@ -24,8 +25,11 @@ function Bunny:update(carrots, dt)
     if self.y >= self.ground then
         self.y = self.ground
         self.velos = 0
+        self.jumpcount = 0
     end
-    if love.keyboard.isDown("space") and self.timer >= 0.1 and self.gameover == false then
+
+    if love.keyboard.isDown("space") and self.timer >= 0.4 and self.gameover == false and self.jumpcount < 5 then
+        self.jumpcount = self.jumpcount + 1
         self.velos = -5
         self.timer = 0
     end
@@ -86,9 +90,8 @@ function Bunny:die(carrots)
     end
 end
 
---make bun stop moving in bunny die
---limit bun jumps
 -- game over screen
 -- press "space" to start over
--- put bunny in front of carrot 
 -- press s to restart
+-- scoreboard
+-- jump counter 
