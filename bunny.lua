@@ -2,6 +2,7 @@ Bunny = Object:extend()
 
 function Bunny:new()
     self.bun = love.graphics.newImage("bun.png")
+    self.gameoverscreen = love.graphics.newImage("GAMEOVER.png")
     self.width = 50
     self.height = 50
     self.ground = love.graphics.getHeight()/5*4 - self.height
@@ -43,10 +44,16 @@ function Bunny:update(carrots, dt)
 end
 
 function Bunny:draw()
+    if self.gameover == true then
+        love.graphics.draw(self.gameoverscreen, 0, 0, 0, 0.40, 0.45)
+    end
     font = love.graphics.getFont()
-    love.graphics.draw(self.bun, self.x, self.y)
-    local score_y = love.graphics.getHeight() / 5
-    love.graphics.printf(self.score, font, 0, score_y, love.graphics.getWidth(), "center")
+    if self.gameover == false then
+        love.graphics.draw(self.bun, self.x, self.y)
+        local score_y = love.graphics.getHeight() / 5
+        love.graphics.printf(self.score, font, 0, score_y, love.graphics.getWidth(), "center")
+    end
+    
 end
 
 function Bunny:checkCollision(carrots)
