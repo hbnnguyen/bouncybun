@@ -19,6 +19,7 @@ function love.update(dt)
 end
 
 function love.draw()
+    love.graphics.setBackgroundColor(135/255, 206/255, 235/255, 1)
     crtDraw(carrots)
     b1:draw(b1)
 end
@@ -36,5 +37,14 @@ end
 function crtDraw(carrots)
     for i=1, #carrots do
         carrots[i]:draw()
+    end
+end
+
+function love.keypressed(key)
+    if key == "s" then
+        b1.score = 0
+        b1.gameover = false
+        timer = 5
+        carrots = {}
     end
 end
