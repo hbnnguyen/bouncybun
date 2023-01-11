@@ -15,7 +15,9 @@ function Carrot:update(dt)
 end
 
 function Carrot:draw()
+    love.graphics.setColor(237/255, 145/255, 33/255, 1)
     love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    love.graphics.setColor(1,1,1,1)
 end
 
 -- carrots sprout from the ground

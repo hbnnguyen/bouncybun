@@ -5,6 +5,13 @@ function love.load()
     carrots = {}
     timer = 5
     b1 = Bunny()
+    if love.filesystem.getInfo("highScoreFile.txt") ~= nil then
+        -- print(love.filesystem.read("highScoreFile.txt"))
+        -- contents, size = love.filesystem.read( name, size )
+        content, size = love.filesystem.read("highScoreFile.txt")
+        b1.highscore = tonumber(content)
+
+    end
 end
 -- test test
 function love.update(dt)

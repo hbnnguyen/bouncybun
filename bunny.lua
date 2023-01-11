@@ -52,14 +52,16 @@ function Bunny:draw()
 
     local score_y = love.graphics.getHeight()/25
     love.graphics.printf(self.score, font, -love.graphics.getWidth()/25, score_y, love.graphics.getWidth(), "right")
-
+    
+    love.graphics.setColor(72/255, 111/255, 56/255, 1)
+    love.graphics.rectangle("fill", 0, self.ground+self.height, love.graphics.getWidth(), self.ground)
+    love.graphics.setColor(1, 1, 1, 1)
     if self.gameover == true then
         love.graphics.setColor(0, 0, 0, 0.2)
         love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
-        love.graphics.setColor(255, 255, 255, 1)
+        love.graphics.setColor(1, 1, 1, 1)
         love.graphics.printf("GAME OVER", gameOverFont, 0, love.graphics.getHeight()/5, love.graphics.getWidth(), "center")
-        love.graphics.printf("HIGH SCORE:", font, 0, love.graphics.getHeight()*2/5, love.graphics.getWidth(), "center")
-        love.graphics.printf(self.highscore, font, 0, love.graphics.getHeight()*3/5, love.graphics.getWidth(), "center")
+        love.graphics.printf("HIGH SCORE: "..self.highscore, font, 0, love.graphics.getHeight()*2/5, love.graphics.getWidth(), "center")
         love.graphics.printf("PRESS 'S' TO RESTART", font, 0, love.graphics.getHeight()*5/6, love.graphics.getWidth(), "center")
     end
     
@@ -105,8 +107,15 @@ function Bunny:die(carrots)
     for i=1, #carrots do
         carrots[i].move = false
     end
+
     if self.score > self.highscore then
         self.highscore = self.score
+        if love.filesystem.getInfo("highScoreFile.txt") == nil then
+            love.filesystem.newFile("highScoreFile.txt")
+            love.filesystem.write("highScoreFile.txt", tostring(self.highscore))
+        else 
+            love.filesystem.write("highScoreFile.txt", tostring(self.highscore))
+        end
     end
 end
 
