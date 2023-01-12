@@ -61,7 +61,9 @@ function Bunny:draw()
     love.graphics.setColor(72/255, 111/255, 56/255, 1)
     love.graphics.rectangle("fill", 0, self.ground+self.height, love.graphics.getWidth(), self.ground)
     love.graphics.setColor(1, 1, 1, 1)
-
+    love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.rectangle("line", 0, self.ground+self.height, love.graphics.getWidth(), self.ground)
+    love.graphics.setColor(1, 1, 1, 1)
     -- game over screen
     if self.gameover == true then
         love.graphics.setColor(0, 0, 0, 0.2)
@@ -126,6 +128,3 @@ function Bunny:die(carrots)
         end
     end
 end
-
--- scoreboard
--- jump counter 

@@ -3,7 +3,9 @@ function love.load()
     require "bunny"
     require "carrot"
     carrots = {}
-    timer = 5
+    initTimer = 5
+    timeDecrease = initTimer-0.5
+    timer = initTimer
     b1 = Bunny()
     if love.filesystem.getInfo("highScoreFile.txt") ~= nil then
         -- print(love.filesystem.read("highScoreFile.txt"))
