@@ -13,7 +13,7 @@ function Bunny:new()
     self.score = 0
     self.scoretime = 5
     self.gameover = false
-    self.jumpcount = 0
+    self.jumpcount = 5
     self.highscore = 0
 end
 
@@ -26,11 +26,11 @@ function Bunny:update(carrots, dt)
     if self.y >= self.ground then
         self.y = self.ground
         self.velos = 0
-        self.jumpcount = 0
+        self.jumpcount = 5
     end
 
-    if love.keyboard.isDown("space") and self.timer >= 0.3 and self.gameover == false and self.jumpcount < 5 then
-        self.jumpcount = self.jumpcount + 1
+    if love.keyboard.isDown("space") and self.timer >= 0.3 and self.gameover == false and self.jumpcount > 0 then
+        self.jumpcount = self.jumpcount - 1
         self.velos = -7
         self.timer = 0
     end
@@ -52,10 +52,17 @@ function Bunny:draw()
 
     local score_y = love.graphics.getHeight()/25
     love.graphics.printf(self.score, font, -love.graphics.getWidth()/25, score_y, love.graphics.getWidth(), "right")
-    
+
+    --indicates how many jumps the player has left
+    for i=1, self.jumpcount do
+        love.graphics.rectangle("fill", 15*(i-1)+5, 5, 10, 10)
+    end
+    -- the floor
     love.graphics.setColor(72/255, 111/255, 56/255, 1)
     love.graphics.rectangle("fill", 0, self.ground+self.height, love.graphics.getWidth(), self.ground)
     love.graphics.setColor(1, 1, 1, 1)
+
+    -- game over screen
     if self.gameover == true then
         love.graphics.setColor(0, 0, 0, 0.2)
         love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
@@ -64,7 +71,8 @@ function Bunny:draw()
         love.graphics.printf("HIGH SCORE: "..self.highscore, font, 0, love.graphics.getHeight()*2/5, love.graphics.getWidth(), "center")
         love.graphics.printf("PRESS 'S' TO RESTART", font, 0, love.graphics.getHeight()*5/6, love.graphics.getWidth(), "center")
     end
-    
+
+
     
 end
 
