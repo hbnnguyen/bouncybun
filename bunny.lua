@@ -9,19 +9,18 @@ function Bunny:new()
     self.y = self.ground
     self.accel = 20
     self.velos = 0
-    self.timer = 0.9
     self.score = 0
     self.scoretime = 5
     self.gameover = false
     self.jumpcount = 5
     self.highscore = 0
+    self.spacePressed = false
 end
 
-function Bunny:update(carrots, dt)
+function Bunny:update(carrots, dt, speed)
     --bun jump
     self.velos = self.velos + self.accel * dt
     self.y = self.y + self.velos
-    self.timer = self.timer + dt
 
     if self.y >= self.ground then
         self.y = self.ground
@@ -29,12 +28,16 @@ function Bunny:update(carrots, dt)
         self.jumpcount = 5
     end
 
-    if love.keyboard.isDown("space") and self.timer >= 0.3 and self.gameover == false and self.jumpcount > 0 then
+    if love.keyboard.isDown("space") and self.spacePressed == false and self.gameover == false and self.jumpcount > 0 then
+        self.spacePressed = true
         self.jumpcount = self.jumpcount - 1
         self.velos = -7
-        self.timer = 0
     end
-    
+
+    if love.keyboard.isDown("space") == false then
+        self.spacePressed = false
+    end
+
     --handle game over
     self:checkScore(carrots, dt)
     
@@ -72,6 +75,8 @@ function Bunny:draw()
         love.graphics.printf("GAME OVER", gameOverFont, 0, love.graphics.getHeight()/5, love.graphics.getWidth(), "center")
         love.graphics.printf("HIGH SCORE: "..self.highscore, font, 0, love.graphics.getHeight()*2/5, love.graphics.getWidth(), "center")
         love.graphics.printf("PRESS 'S' TO RESTART", font, 0, love.graphics.getHeight()*5/6, love.graphics.getWidth(), "center")
+        love.graphics.printf("PRESS 'R' TO RESET HIGH SCORE", font, 0, love.graphics.getHeight()*8/9
+        , love.graphics.getWidth(), "center")
     end
 
 
@@ -101,11 +106,15 @@ function Bunny:checkCollision(carrots)
 end 
 
 -- score count will only start if bunny passes the first carrot on the screen
+
 function Bunny:checkScore(carrots, dt)
+    if #carrots < 1 then 
+        return
+    end
     local self_left = self.x
     local carrots_right = carrots[1].x + carrots[1].width
     if self_left >= carrots_right then
-        if self.scoretime >= 5 then
+        if self.scoretime >= (100/speed)*5 then
             self.score = self.score + 1
             self.scoretime = 0
         end
@@ -117,7 +126,7 @@ function Bunny:die(carrots)
     for i=1, #carrots do
         carrots[i].move = false
     end
-
+-- HIGH SCORE PERSISTENCE
     if self.score > self.highscore then
         self.highscore = self.score
         if love.filesystem.getInfo("highScoreFile.txt") == nil then

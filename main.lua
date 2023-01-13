@@ -3,13 +3,11 @@ function love.load()
     require "bunny"
     require "carrot"
     carrots = {}
-    initTimer = 5
-    timeDecrease = initTimer-0.5
-    timer = initTimer
+    timer = 5
     b1 = Bunny()
+    speed = 100
+
     if love.filesystem.getInfo("highScoreFile.txt") ~= nil then
-        -- print(love.filesystem.read("highScoreFile.txt"))
-        -- contents, size = love.filesystem.read( name, size )
         content, size = love.filesystem.read("highScoreFile.txt")
         b1.highscore = tonumber(content)
 
@@ -17,14 +15,16 @@ function love.load()
 end
 -- test test
 function love.update(dt)
-    if timer >= 5 and b1.gameover == false then
+    if timer >= (100/speed)*5 and b1.gameover == false then
         c1 = Carrot()
         table.insert(carrots, c1)
         timer = 0
     end
     timer = timer + dt
-    b1:update(carrots, dt)
+    b1:update(carrots, dt, speed)
     crtUpdate(carrots, dt)
+    
+    speed = math.min(speed+0.05, 350)
 end
 
 function love.draw()
@@ -35,12 +35,15 @@ end
 
 function crtUpdate(carrots, dt)
     for i=1, #carrots do
-        carrots[i]:update(dt)
+        if carrots[i].move then
+            carrots[i].x = carrots[i].x - speed * dt
+        end
     end
     --removes leftmost carrot when goes offscreen
     if #carrots >= 1 and carrots[1].x < -carrots[1].width then 
         table.remove(carrots, 1)
     end
+    
 end
 
 function crtDraw(carrots)
@@ -55,5 +58,9 @@ function love.keypressed(key)
         b1.gameover = false
         timer = 5
         carrots = {}
+        speed = 100
+    end
+    if key == "r" then
+        b1.highscore = 0
     end
 end
