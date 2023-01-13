@@ -7,11 +7,16 @@ function love.load()
     b1 = Bunny()
     speed = 100
 
+    bgm = love.audio.newSource("bgm.mp3", "stream")
+    bgm:setLooping(true)
+    love.audio.setVolume(0.1)
+    love.audio.play(bgm)
+
     if love.filesystem.getInfo("highScoreFile.txt") ~= nil then
         content, size = love.filesystem.read("highScoreFile.txt")
         b1.highscore = tonumber(content)
-
     end
+   
 end
 -- test test
 function love.update(dt)
